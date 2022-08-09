@@ -23,7 +23,9 @@ describe('My first puppeteer test', () => {
 	})
 })
 
-/*		
+//for full screen as browser parameter:
+/* args: ['--start-fullscreen'], */
+/*	
 	  await page.goto('https://devexpress.github.io/testcafe/example/')
     await page.waitForSelector('h1')
 		await page.goto('https://www.nintendo.com/')

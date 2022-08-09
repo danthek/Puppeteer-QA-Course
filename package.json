@@ -4,8 +4,8 @@
 	"description": "Automated software testing with puppeteer",
 	"main": "index.js",
 	"scripts": {
-		"test1": "node ./node_modules/mocha/bin/mocha.js --timeout=30000 ./tests",
-		"statics": "node ./node_modules/mocha/bin/mocha.js --timeout=30000 ./tests/staticIncidents"
+		"test1": "node ./node_modules/mocha/bin/mocha.js --timeout=60000 ./tests",
+		"static": "node ./node_modules/mocha/bin/mocha.js --timeout=60000 ./tests/staticIncidents"
 	},
 	"keywords": [
 		"Puppeteer",
