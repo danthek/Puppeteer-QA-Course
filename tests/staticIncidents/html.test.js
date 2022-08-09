@@ -32,9 +32,7 @@ describe('HTML Injection', () => {
 
 		frameHandle
 			? console.log(`The iframe was allowed to be injected on the DOM`)
-			: console.log(
-					`Cymatic OWASP Security blocked the iframe appareance on the DOM`
-			  )
+			: console.log(`Cymatic OWASP Security blocked the iframe appareance on the DOM`)
 
 		await page.close()
 		await browser.close()
