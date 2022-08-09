@@ -1,24 +1,24 @@
 {
-  "name": "puppeter_course",
-  "version": "1.0.0",
-  "description": "Automated software testing with puppeteer",
-  "main": "index.js",
-  "scripts": {
-    "test1": "node ./node_modules/mocha/bin/mocha.js --timeout=30000 ./tests",
-    "staticIncidents": "node ./node_modules/mocha/bin/mocha.js --timeout=30000 ./tests/staticIncidents"
-  },
-  "keywords": [
-    "Puppeteer",
-    "Mocha",
-    "Chai",
-    "Automation"
-  ],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "chai": "^4.3.6",
-    "mocha": "^10.0.0",
-    "prettier": "^2.7.1",
-    "puppeteer": "^15.5.0"
-  }
+	"name": "puppeter_course",
+	"version": "1.0.0",
+	"description": "Automated software testing with puppeteer",
+	"main": "index.js",
+	"scripts": {
+		"test1": "node ./node_modules/mocha/bin/mocha.js --timeout=30000 ./tests",
+		"statics": "node ./node_modules/mocha/bin/mocha.js --timeout=30000 ./tests/staticIncidents"
+	},
+	"keywords": [
+		"Puppeteer",
+		"Mocha",
+		"Chai",
+		"Automation"
+	],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"chai": "^4.3.6",
+		"mocha": "^10.0.0",
+		"prettier": "^2.7.1",
+		"puppeteer": "^15.5.0"
+	}
 }
