@@ -4,44 +4,49 @@ const expect = require('chai').expect //used for assertions
 describe('My first puppeteer test', () => {
 	it('Should launch the browser', async function () {
 		const browser = await puppeteer.launch({
-			headless: true,
+			headless: false,
 			slowMo: 30,
-			devtools: true,
+			devtools: false,
 		})
 		const page = await browser.newPage()
-		await page.goto('https:example.com')
-
-		const title = await page.title()
-		const url = await page.url()
-		const text = await page.$eval('h1', (element) => element.textContent) // the eval function uses a callback function that returns the textcontent of the element which in this case is ' H1'.
-		const count = await page.$$eval('p', (element) => element.length) // with two '$$' the function returns more than one element (multiple elements)
-		expect(title).to.be.a('string', 'Example Domaimmmmmn')
-		expect(url).to.include('example')
-		expect(text).to.be.a('string', 'Example Domain')
-		expect(count).to.equal(2)
+		await page.setDefaultTimeout(0)
+		await page.goto('	http://zero.webappsecurity.com/')
+		await page.waitForSelector('#signin_button')
+		await page.click('#signin_button')
+		await page.waitForSelector('#signin_button', {
+			hidden: true,
+			timeout: 3000,
+		}) // we indicate that we search for this selector but hidden (doesnt exist)
+		//nd we overide the timeout to 3 secs
+		await page.waitForTimeout(3000)
 		await browser.close()
 	})
 })
 
-//for full screen as browser parameter:
-/* args: ['--start-fullscreen'], */
+/* args: ['--start-fullscreen'], //for full screen as browser parameter
+	slowMo: 30, // slow all the actions
+			devtools: true, // Launch cromium with the console opened
+			*/
 /*	
+const page = await browser.newPage()
+		await page.goto('https:example.com')
+		await page.setDefaultTimeout(10000) // sets  the defeault time out for all awaits
+		await page.setDefaultNavigationTimeout(20000) // sets the defautl timeout for the navigation (go forward, back, etc)
+
 	  await page.goto('https://devexpress.github.io/testcafe/example/')
     await page.waitForSelector('h1')
 		await page.goto('https://www.nintendo.com/')
-		await page.reload()
-		await page.goBack()
-		await page.goForward()
-		await page.waitForTimeout(1000)
-		await page.goBack()
-		await page.click('#tried-test-cafe', { clickCount: 3 })
-		await page.type('#developer-name', 'Danthek')
-		await page.select('#preferred-interface', 'Both')
+		await page.reload() // reloads the browser
+		await page.goBack() // to previous tab
+		await page.click('#tried-test-cafe', { clickCount: 3 }) // clickcount is for the number of clicks on the elemnent
+		await page.type('#developer-name', 'Danthek' , {delay:200}) // type values on inputs , the first parameter is the id/class of the element
+		await page.select('#preferred-interface', 'JavaScript API')// to select items from dropdowns
 		const msg = 'This is the automated typed message by Puppeteer'
 		await page.type('#comments', msg, { delay: 0 })
 		await page.click('#submit-button')
-		await page.waitForSelector('.result-content')
-		await page.waitForTimeout(3000)
+		await page.waitForSelector('h1') // if it doesnt find an h1 elemnt it will trhow an error, otherwise it will pass
+		await page.waitForTimeout(3000) //Pause puppeter before it pass to the next action
+		await page.keyboard.press('Enter', { delay: 10 }) // we can indicate to press escape key, etc
 		await browser.close()
     */
 /* 
@@ -52,7 +57,8 @@ describe('My first puppeteer test', () => {
 		console.log('Title:', title, 'URL:', url)
  */
 /* 
-    const text = await page.$eval('h1', (element) => element.textContent) // the eval function uses a callback function that returns the textcontent of the element which in this case is ' H1'.
+    const text = await page.$eval('h1', (element) => element.textContent) // the eval function uses a callback function 
+		//that returns the textcontent of the element which in this case is ' H1'.
 		console.log(`Text in the H1: ${text}`)
 		*/
 
@@ -60,15 +66,37 @@ describe('My first puppeteer test', () => {
 console.log(`Number of P tags on the page: ${count}`)
  */
 
-/*  await page.reload() // reloads the browser
-    await page.waitForTimeout(3000) //Pause puppeter before it pass to the next action
-    await page.waitForSelector('h1') // if it doesnt find an h1 elemnt it will trhow an error, otherwise it will pass
-    await page.goBack()// to previous tab
-    await page.goForward()
-    await page.type('#developer-name', 'Abraham', {delay:200}) // type values on inputs , the first parameter is the id/class of the element
-    await page.click('#tried-test-cafe', {clickCount: 2}) // clickcount is for the number of clicks on the elemnent
-    await page.select('#preferred-interface', 'JavaScript API')// to select items from dropdowns
+/* const page = await browser.newPage()
+await page.setDefaultTimeout(0)
 
+let currentURL
+page
+	.waitForXPath('//img') //it’a like waiting for a selector but using xml xpath relative or absoulte sintax
+	.then(() => console.log('First URL with image: ' + currentURL))
+for (currentURL of [
+	'https://example.com',
+	'https://google.com',
+	'https://bbc.com',
+	'	http://zero.webappsecurity.com/',
+]) {
+	await page.goto(currentURL)
+}
+ */
 
+/*
+// VALIDATE THAT AN ELEMENT NOT LONGER EXIST ON THE DOM
+METHOD A: 
+const page = await browser.newPage()
+await page.setDefaultTimeout(0)
+await page.goto('	http://zero.webappsecurity.com/')
+await page.waitForSelector('#signin_button')
+await page.click('#signin_button')
+await page.waitForFunction(() => !document.querySelector('#signin_button')) // waits until the selector is no longer present in the DOM 
 
-    */
+METHOD B:
+await page.waitForSelector('#signin_button', {
+	hidden: true,
+	timeout: 3000,
+}) // we indicate that we search for this selector but hidden (doesnt exist)
+//nd we overide the timeout to 3 secs
+*/
