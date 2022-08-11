@@ -1,14 +1,35 @@
+const { before } = require('mocha')
 const puppeteer = require('puppeteer')
 const expect = require('chai').expect //used for assertions
 
-describe('My first puppeteer test', () => {
-	it('Should launch the browser', async function () {
-		const browser = await puppeteer.launch({
+describe('Login test', () => {
+	let browser // its a good proactice to deine variables at the top
+	let page
+	before(async function () {
+		// here we setup and prepare our test
+		browser = await puppeteer.launch({
 			headless: false,
 			slowMo: 30,
 			devtools: false,
 		})
-		const page = await browser.newPage()
+		await browser.newPage()
+		await page.setDefaultTimeout(0) // sets  the defeault time out for all awaits
+		await page.setDefaultNavigationTimeout(0) // sets the defautl timeout for the navigation (go forward, back, etc)
+	})
+	after(async function () {
+		await browser.close() // we do this so the browser closes after all the "its" had run
+	})
+	beforeEach(async function () {
+		// the main diference vs "before" is that "before""only runs once  in the whole test" abd "before each" runs before each "it".
+	})
+
+	afterEach(async function () {
+		// runs after each test step ( vs "after" which runs at the end of the whole test)
+		// for example if we need to reset or prepare some state before or after each of the it steps
+		// or if we have some logging implemented its a good place to use it
+	})
+
+	it('Should launch the browser', async function () {
 		await page.setDefaultTimeout(0)
 		await page.goto('	http://zero.webappsecurity.com/')
 		await page.waitForSelector('#signin_button')
@@ -19,10 +40,10 @@ describe('My first puppeteer test', () => {
 		}) // we indicate that we search for this selector but hidden (doesnt exist)
 		//nd we overide the timeout to 3 secs
 		await page.waitForTimeout(3000)
-		await browser.close()
 	})
 })
 
+///////////////////////////browser attributes
 /* args: ['--start-fullscreen'], //for full screen as browser parameter
 	slowMo: 30, // slow all the actions
 			devtools: true, // Launch cromium with the console opened
@@ -49,6 +70,8 @@ const page = await browser.newPage()
 		await page.keyboard.press('Enter', { delay: 10 }) // we can indicate to press escape key, etc
 		await browser.close()
     */
+
+//////////////////////webpage title & URL
 /* 
     const title = await page.title()
 		const url = await page.url()
@@ -56,6 +79,7 @@ const page = await browser.newPage()
 		console.log('Title: ' + title + ' URL: ' + url)
 		console.log('Title:', title, 'URL:', url)
  */
+///////////////////////////////////$eval
 /* 
     const text = await page.$eval('h1', (element) => element.textContent) // the eval function uses a callback function 
 		//that returns the textcontent of the element which in this case is ' H1'.
@@ -66,6 +90,7 @@ const page = await browser.newPage()
 console.log(`Number of P tags on the page: ${count}`)
  */
 
+///////////////////////////////WAIT FOR XPATH
 /* const page = await browser.newPage()
 await page.setDefaultTimeout(0)
 
@@ -84,7 +109,7 @@ for (currentURL of [
  */
 
 /*
-// VALIDATE THAT AN ELEMENT NOT LONGER EXIST ON THE DOM
+//////////////////////////////// VALIDATE THAT AN ELEMENT NOT LONGER EXIST ON THE DOM
 METHOD A: 
 const page = await browser.newPage()
 await page.setDefaultTimeout(0)
@@ -100,3 +125,31 @@ await page.waitForSelector('#signin_button', {
 }) // we indicate that we search for this selector but hidden (doesnt exist)
 //nd we overide the timeout to 3 secs
 */
+
+//////////////////////////// HOOKS
+/* describe('My first puppeteer test', () => {
+	let browser // its a good proactice to deine variables at the top
+	let page
+	before(async function () {
+		// here we setup and prepare our test
+		browser = await puppeteer.launch({
+			headless: false,
+			slowMo: 30,
+			devtools: false,
+		})
+		await browser.newPage()
+		await page.setDefaultTimeout(0) // sets  the defeault time out for all awaits
+		await page.setDefaultNavigationTimeout(0) // sets the defautl timeout for the navigation (go forward, back, etc)
+	})
+	after(async function () {
+		await browser.close() // we do this so the browser closes after all the "its" had run
+	})
+	beforeEach(async function () {
+		// the main diference vs "before" is that "before""only runs once  in the whole test" abd "before each" runs before each "it".
+	})
+
+	afterEach(async function () {
+		// runs after each test step ( vs "after" which runs at the end of the whole test)
+		// for example if we need to reset or prepare some state before or after each of the it steps
+		// or if we have some logging implemented its a good place to use it
+	}) */
