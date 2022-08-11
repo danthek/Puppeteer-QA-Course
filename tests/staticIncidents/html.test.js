@@ -15,6 +15,7 @@ describe('HTML Injection', () => {
 		await page.goto('http://localhost:3000/login')
 
 		const client = await page.target().createCDPSession()
+
 		await page.waitForTimeout(3000)
 		await client.send('Runtime.evaluate', {
 			includeCommandLineAPI: true,
@@ -32,7 +33,9 @@ describe('HTML Injection', () => {
 
 		frameHandle
 			? console.log(`The iframe was allowed to be injected on the DOM`)
-			: console.log(`Cymatic OWASP Security blocked the iframe appareance on the DOM`)
+			: console.log(
+					`Cymatic OWASP Security blocked the iframe appareance on the DOM`
+			  )
 
 		await page.close()
 		await browser.close()
@@ -40,6 +43,6 @@ describe('HTML Injection', () => {
 })
 
 /* module.exports = async function (browser) {
-  return { html: 'worked' };
+	return { html: 'worked' };
 };
 */
