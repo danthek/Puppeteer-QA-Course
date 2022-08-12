@@ -1,44 +1,33 @@
-const { before } = require('mocha')
+const { before, it } = require('mocha')
 const puppeteer = require('puppeteer')
-const expect = require('chai').expect //used for assertions
-const { click, getText, getCount, shouldNotExist } = require('./lib/helpers') // we use { } to destructure/pullout from the object this functions
+const expect = require('chai').expect
+const { click, getText, getCount, shouldNotExist } = require('./lib/helpers')
 
 describe('Example test', () => {
-	let browser //its a good proactice to deine variables at the top
+	let browser
 	let page
 	before(async function () {
-		// here we setup and prepare our test
 		browser = await puppeteer.launch({
 			headless: true,
 			slowMo: 10,
 			devtools: false,
 		})
 		page = await browser.newPage()
-		await page.setDefaultTimeout(10000) //sets  the defeault time out for all awaits
-		await page.setDefaultNavigationTimeout(100000) //sets the defautl timeout for the navigation (go forward, back, etc)
+		await page.setDefaultTimeout(10000)
+		await page.setDefaultNavigationTimeout(100000)
 	})
 	after(async function () {
-		await browser.close() //we do this so the browser closes after all the "its" had run
+		await browser.close()
 	})
 
 	it('Should launch the browser', async function () {
 		await page.goto('	http://example.com')
 
-		///////////////////////////// using helpers//////////////////////////////////////////////
-		//dont forget to require each of our methods at the top of the code:
-		//const click = require('./lib/helpers')// we use { } to destructure/pullout from the object this functions
-		//const getText = require('./lib/helpers')
-		//const getCount = require('./lib/helpers')
-		// then simply use them with the await on each one and pass the needed props to them:
-
-		// const count = await page.$$eval('p', (element) => element.length)
-		const count = await getCount(page, 'p')
 		console.log(`Number of P tags on the page: ${count}`)
-		// const text = await page.$eval('body > div > p:nth-child(3) > a', (element) => element.textContent)
+
 		const text = await getText(page, 'h1')
 		console.log(`Text in the link: ${text}`)
-		//	await page.waitForSelector('body > div > p:nth-child(3) > an')
-		// await page.click('body > div > p:nth-child(3) > a')
+
 		await click(page, 'body > div > p:nth-child(3) > a')
 		await page.waitForTimeout(3000)
 		await shouldNotExist(page, '#custodianX')
@@ -77,6 +66,12 @@ const page = await browser.newPage()
 		await page.keyboard.press('Enter', { delay: 10 }) // we can indicate to press escape key, etc
 		await browser.close()
 		*/
+
+/* ////////////////// classes, types and selectors ///////////////////
+await click(page, 'input[type="submit"]') // with type
+await click(page, 'input[class="btn btn-primary"]') // with class 
+await click(page, '.btn.btn-primary') // with class remember to add points before each class/subclass and eliminate empty spaces
+await click(page, '#login_form > div.form-actions > input') // with selector  */
 
 //////////////////////webpage title & URL//////////////////////////////////////////
 /*

@@ -36,7 +36,9 @@ module.exports = {
 		//without puppeter's $eval innerText &  chai's  "to.include" and expect)
 		try {
 			await page.waitForSelector(selector)
-			await page.waitForFunction((selector, text) => {
+			/* 	const value = await page.$eval(selector, (element) => element.textContent)
+			expect(value).to.include(text) */
+			return await page.waitForFunction((selector, text) => {
 				document.querySelector(selector).innerText.includes(text),
 					{},
 					selector,
