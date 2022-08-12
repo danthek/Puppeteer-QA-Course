@@ -30,7 +30,6 @@ describe('HTML Injection', () => {
 		await page.waitForTimeout(3000)
 		// handle iframe
 		const frameHandle = await page.$("iframe[id='frame1']")
-
 		frameHandle
 			? console.log(`The iframe was allowed to be injected on the DOM`)
 			: console.log(

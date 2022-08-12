@@ -1,9 +1,7 @@
 const { before } = require('mocha')
 const puppeteer = require('puppeteer')
 const expect = require('chai').expect //used for assertions
-const { click } = require('./lib/helpers') // we use { } to destructure/pullout from the object this functions
-const { getText } = require('./lib/helpers')
-const { getCount } = require('./lib/helpers')
+const { click, getText, getCount, shouldNotExist } = require('./lib/helpers') // we use { } to destructure/pullout from the object this functions
 
 describe('Example test', () => {
 	let browser //its a good proactice to deine variables at the top
@@ -11,7 +9,7 @@ describe('Example test', () => {
 	before(async function () {
 		// here we setup and prepare our test
 		browser = await puppeteer.launch({
-			headless: false,
+			headless: true,
 			slowMo: 10,
 			devtools: false,
 		})
@@ -42,6 +40,8 @@ describe('Example test', () => {
 		//	await page.waitForSelector('body > div > p:nth-child(3) > an')
 		// await page.click('body > div > p:nth-child(3) > a')
 		await click(page, 'body > div > p:nth-child(3) > a')
+		await page.waitForTimeout(3000)
+		await shouldNotExist(page, '#custodianX')
 	})
 })
 
@@ -181,19 +181,21 @@ await page.waitForSelector('#signin_button', {
 		await page.waitForTimeout(5000)
 	}) */
 
-/* 	///////////////////////////// using helpers//////////////////////////////////////////////
-		//dont forget to require each of our methods at the top of the code:
-		//const click = require('./lib/helpers')// we use { } to destructure/pullout from the object this functions
-		//const getText = require('./lib/helpers')
-		//const getCount = require('./lib/helpers')
-		// then simply use them with the await on each one and pass the needed props to them:
-
-		// const count = await page.$$eval('p', (element) => element.length)
-		const count = await getCount(page, 'p')
-		console.log(`Number of P tags on the page: ${count}`)
-		// const text = await page.$eval('body > div > p:nth-child(3) > a', (element) => element.textContent)
-		const text = await getText(page, 'h1')
-		console.log(`Text in the link: ${text}`)
-		//	await page.waitForSelector('body > div > p:nth-child(3) > an')
-		// await page.click('body > div > p:nth-child(3) > a')
-		await click(page, 'body > div > p:nth-child(3) > a') */
+/*     ///////////////////////////// using helpers///////////////////////////////
+    //dont forget to require each of our methods at the top of the code:
+ const { click, getText, getCount, shouldNotExist } = require('./lib/helpers') // we use { } to destructure/pullout from the object this functions
+ 
+    // then simply use them with the await on each one and pass the needed props to them:
+ 
+    // const count = await page.$$eval('p', (element) => element.length)
+    const count = await getCount(page, 'p')
+    console.log(`Number of P tags on the page: ${count}`)
+    // const text = await page.$eval('body > div > p:nth-child(3) > a', (element) => element.textContent)
+    const text = await getText(page, 'h1')
+    console.log(`Text in the link: ${text}`)
+    //  await page.waitForSelector('body > div > p:nth-child(3) > an')
+    // await page.click('body > div > p:nth-child(3) > a')
+    await click(page, 'body > div > p:nth-child(3) > a')
+    await page.waitForTimeout(3000)
+    await shouldNotExist(page, '#custodianX')
+  })*/
