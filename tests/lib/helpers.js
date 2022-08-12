@@ -1,3 +1,4 @@
+const expect = require('chai').expect
 module.exports = {
 	click: async function (page, selector) {
 		try {
@@ -36,14 +37,15 @@ module.exports = {
 		//without puppeter's $eval innerText &  chai's  "to.include" and expect)
 		try {
 			await page.waitForSelector(selector)
-			/* 	const value = await page.$eval(selector, (element) => element.textContent)
-			expect(value).to.include(text) */
 			return await page.waitForFunction((selector, text) => {
 				document.querySelector(selector).innerText.includes(text),
 					{},
 					selector,
 					text
 			}) // we need an empty state as 2nd parameter  to actually be able to pass the value  to the browser (this is how node  & the browser communicate with each other)
+
+			/* 	const value = await page.$eval(selector, (element) => element.textContent)
+      expect(value).to.include(text) */
 		} catch (error) {
 			throw new Error(`Text: ${text} not found in Selector: ${selector}`)
 		}

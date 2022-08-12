@@ -69,9 +69,9 @@ const page = await browser.newPage()
 
 /* ////////////////// classes, types and selectors ///////////////////
 await click(page, 'input[type="submit"]') // with type
-await click(page, 'input[class="btn btn-primary"]') // with class 
+await click(page, 'input[class="btn btn-primary"]') // with class
 await click(page, '.btn.btn-primary') // with class remember to add points before each class/subclass and eliminate empty spaces
-await click(page, '#login_form > div.form-actions > input') // with selector  */
+await click(page, '#login_form > div.form-actions > input') // with selector */
 
 //////////////////////webpage title & URL//////////////////////////////////////////
 /*
