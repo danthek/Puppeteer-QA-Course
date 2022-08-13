@@ -23,8 +23,6 @@ describe('Example test', () => {
 	it('Should launch the browser', async function () {
 		await page.goto('	http://example.com')
 
-		console.log(`Number of P tags on the page: ${count}`)
-
 		const text = await getText(page, 'h1')
 		console.log(`Text in the link: ${text}`)
 

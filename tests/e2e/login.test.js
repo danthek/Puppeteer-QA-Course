@@ -47,13 +47,6 @@ describe('Login Test', () => {
 		await page.waitForTimeout(3000)
 		await shouldNotExist(page, 'input[class="btn btn-primary"]')
 		await page.waitForSelector('#settingsBox > ul > li:nth-child(3) > a')
-		/* 		await page.waitForSelector('#account_activity_link')
-		const value = await page.$eval(
-			'#account_activity_link',
-			(element) => element.textContent
-      ) 
-      expect(value).to.include('Checking Account Activity')
-      */
 		waitForText(page, '#account_activity_link', 'Checking Account Activity')
 		await page.waitForTimeout(3000)
 	})
